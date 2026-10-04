@@ -1,0 +1,22 @@
+# OpenTofu
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+crash.*.log
+
+# Never commit real values — these are supplied locally per the
+# write-only secrets flow in IaC.md / prerequisites.md.
+secrets.auto.tfvars
+*.secrets.tfvars
+
+# .terraform.lock.hcl IS committed deliberately — do not ignore it.
+
+# Lambda source build artifacts (modules/queue-depth-lambda) —
+# package-lock.json IS committed deliberately, same reasoning as
+# .terraform.lock.hcl.
+**/lambda/node_modules/
+**/queue-depth-lambda/dist.zip
+
+.DS_Store

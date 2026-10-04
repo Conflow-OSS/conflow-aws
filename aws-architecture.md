@@ -120,12 +120,17 @@ the app already tolerates brief reconnects by design). `max_capacity = 1` is
 deliberately tight for now, a conscious trade given current load, not an
 oversight — see "Pending decisions."
 
-**ElastiCache Redis**, classic (cluster mode disabled), **not**
-ElastiCache Serverless — Serverless's fixed `maxmemory-policy` is
-incompatible with BullMQ, which specifically requires `noeviction` (losing a
-queued job to eviction is a correctness bug for a job queue, not just a
-performance one). Single node, no read replica, single-AZ — a deliberate,
-revisit-later trade-off, not a blind spot (see "Pending decisions").
+**ElastiCache for Valkey**, not Redis OSS — a choice made during
+implementation. ElastiCache caps Redis OSS at version 7.1 going forward
+(7.2+ is Valkey-only), AWS now steers every new deployment toward Valkey
+(cheaper, actively developed), and it's a wire-protocol-compatible fork of
+Redis 7.2 — BullMQ's `ioredis` client is unaffected either way. Classic
+replication group (cluster mode disabled), **not** ElastiCache Serverless —
+Serverless's fixed `maxmemory-policy` is incompatible with BullMQ, which
+specifically requires `noeviction` (losing a queued job to eviction is a
+correctness bug for a job queue, not just a performance one). Single node,
+no read replica, single-AZ — a deliberate, revisit-later trade-off, not a
+blind spot (see "Pending decisions").
 
 **S3**, private, fronted by CloudFront via Origin Access Control rather than
 a public bucket. The images themselves are meant to be public (they're

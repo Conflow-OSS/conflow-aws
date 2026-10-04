@@ -1,0 +1,10 @@
+{
+  "name": "conflow-queue-depth-lambda",
+  "private": true,
+  "type": "module",
+  "description": "Publishes BullMQ's waiting-job count as a CloudWatch metric, so the worker ECS service can autoscale on it — Redis has no native queue-depth metric the way SQS does. See IaC.md's 'Queue-depth autoscaling' section.",
+  "dependencies": {
+    "@aws-sdk/client-cloudwatch": "3.1146.0",
+    "bullmq": "6.3.11"
+  }
+}
